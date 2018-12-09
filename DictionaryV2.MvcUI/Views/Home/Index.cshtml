@@ -1,0 +1,36 @@
+﻿@model IEnumerable<EngDictionary>
+@{
+    ViewData["Title"] = "Index";
+}
+
+@if(Model.Count() > 0) {
+
+    <div class="container">
+        <div class="row">
+            <div class="col">
+
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">English</th>
+                            <th scope="col">Turkish</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @foreach (var item in Model) {
+                            <tr>
+                                <th scope="row">@item.Id</th>
+                                <td>@item.EngStr</td>
+                                <td>@item.TrStr</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+}
