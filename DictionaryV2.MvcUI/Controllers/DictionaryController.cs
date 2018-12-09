@@ -15,8 +15,7 @@ namespace DictionaryV2.MvcUI.Controllers
         public DictionaryController(IEngDictionaryService engDictionaryService) {
             _engDictionaryService = engDictionaryService;
         }
-        public IActionResult Index()
-        {
+        public IActionResult Index() {
             return View();
         }
 
