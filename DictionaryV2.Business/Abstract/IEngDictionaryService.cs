@@ -11,5 +11,9 @@ namespace DictionaryV2.Business.Abstract {
         void Delete(EngDictionary entity);
 
         List<EngDictionary> GetAll();
+
+        List<EngDictionary> GetAllByRandom();
+
+        EngDictionary GetByFilter(Func<EngDictionary, bool> filter);
     }
 }

@@ -7,6 +7,8 @@ namespace DictionaryV2.Entity.Concreate {
 
         public int Id { get; set; }
 
+        public DateTime InsertDate { get; set; }
+
         public string EngStr { get; set; }
 
         public string TrStr { get; set; }

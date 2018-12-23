@@ -7,6 +7,11 @@
   <ItemGroup>
     <PackageReference Include="FluentValidation" Version="8.1.0" />
     <PackageReference Include="PostSharp" Version="6.0.31" />
+    <PackageReference Include="System.Runtime.Caching" Version="4.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DictionaryV2.Entity\DictionaryV2.Entity.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -15,6 +20,12 @@
     </Reference>
     <Reference Include="Microsoft.EntityFrameworkCore">
       <HintPath>..\..\..\..\..\..\..\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.entityframeworkcore\2.0.3\lib\netstandard2.0\Microsoft.EntityFrameworkCore.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Caching.Memory">
+      <HintPath>..\..\..\..\..\..\..\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.extensions.caching.memory\2.0.2\lib\netstandard2.0\Microsoft.Extensions.Caching.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.AccessControl">
+      <HintPath>..\..\..\..\..\..\..\Program Files\dotnet\sdk\NuGetFallbackFolder\system.security.accesscontrol\4.4.0\ref\netstandard2.0\System.Security.AccessControl.dll</HintPath>
     </Reference>
   </ItemGroup>
 

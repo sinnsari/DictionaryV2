@@ -1,6 +1,9 @@
 ﻿using DictionaryV2.Business.Abstract;
 using DictionaryV2.Business.Validation.FluentValidation;
 using DictionaryV2.Core.Aspects.PostSharp;
+using DictionaryV2.Core.Aspects.PostSharp.CacheAspects;
+using DictionaryV2.Core.Aspects.PostSharp.ValidationAspects;
+using DictionaryV2.Core.CrossCuttingConcerns.Caching.Microsoft;
 using DictionaryV2.Core.CrossCuttingConcerns.Validator.FluentValidator;
 using DictionaryV2.DataAccess.Abstract;
 using DictionaryV2.Entity.Concreate;
@@ -27,8 +30,17 @@ namespace DictionaryV2.Business.Concreate {
             _engDictionaryDal.Delete(entity);
         }
 
+        [CacheAspect(typeof(MemoryCacheManager))]
         public List<EngDictionary> GetAll() {
             return _engDictionaryDal.GetAll();
+        }
+
+        public List<EngDictionary> GetAllByRandom() {
+            return _engDictionaryDal.GetAllByRandom();
+        }
+
+        public EngDictionary GetByFilter(Func<EngDictionary,bool> filter) {
+            return _engDictionaryDal.GetByFilter(filter);
         }
     }
 }

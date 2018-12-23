@@ -24,11 +24,26 @@ namespace DictionaryV2.MvcUI.Controllers
             return View();
         }
 
+        public IActionResult TestTurkish() {
+
+            return View(_engDictionaryService.GetAllByRandom());
+        }
+
+        public IActionResult TestEnglish() {
+
+            return View(_engDictionaryService.GetAllByRandom());
+        }
+
         [HttpPost]
         public IActionResult New(EngDictionary entity) {
             _engDictionaryService.Add(entity);
 
-            return View();
+            return RedirectToAction("New");
+        }
+
+        public IActionResult Search(string q) {
+
+            return View(_engDictionaryService.GetByFilter(x=> x.EngStr.Contains(q)));
         }
     }
 }

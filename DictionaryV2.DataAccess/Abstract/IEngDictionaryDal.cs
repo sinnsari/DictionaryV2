@@ -7,5 +7,6 @@ using System.Text;
 namespace DictionaryV2.DataAccess.Abstract {
     public interface IEngDictionaryDal : IEntityRepository<EngDictionary> {
 
+        List<EngDictionary> GetAllByRandom();
     }
 }

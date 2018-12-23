@@ -6,7 +6,7 @@ using System.Text;
 using System.Linq;
 using DictionaryV2.Core.CrossCuttingConcerns.Validator.FluentValidator;
 
-namespace DictionaryV2.Core.Aspects.PostSharp {
+namespace DictionaryV2.Core.Aspects.PostSharp.ValidationAspects {
     [Serializable]
     public class FluentValidatonAspect : OnMethodBoundaryAspect {
 

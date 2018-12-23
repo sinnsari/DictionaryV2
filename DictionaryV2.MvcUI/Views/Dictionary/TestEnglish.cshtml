@@ -1,0 +1,60 @@
+﻿@model IEnumerable<EngDictionary>
+@{
+    ViewData["Title"] = "Test";
+}
+
+
+@if (Model.Count() > 0) {
+
+    <div class="container">
+        <div class="row">
+            <div class="col">
+
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Turkish</th>
+                            <th scope="col">English</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @foreach (var item in Model) {
+                            <tr>
+                                <th scope="row"></th>
+                                <td>@item.TrStr</td>
+                                <td>
+                                    <input type="text" id="@item.Id" />
+                                    <input type="submit" onclick="ShowEng(@item.Id,'@item.EngStr')" value="Show" />
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+}
+
+
+    <script>
+        function ShowEng(id, str) {
+
+            var inputIdSelector = '#' + id;
+
+            var value = $(inputIdSelector).val();
+
+            if (value == str) {
+                $(inputIdSelector).addClass("btn-outline-success");
+            }
+            else {
+                $(inputIdSelector).addClass("btn-outline-danger");
+            }
+
+            var selector = '#' + id;
+            $(selector).val(str);
+        };
+    </script>

@@ -12,11 +12,12 @@ namespace DictionaryV2.MvcUI.Controllers
     {
         private IEngDictionaryService _engDictionaryService;
         public HomeController(IEngDictionaryService engDictionaryService) {
+
             _engDictionaryService = engDictionaryService;
         }
-        public IActionResult Index()
-        {
-            return View(_engDictionaryService.GetAll());
+        public IActionResult Index() {
+
+            return View(_engDictionaryService.GetAll().OrderByDescending(x=>x.Id));
         }
 
         public IActionResult Error() {
