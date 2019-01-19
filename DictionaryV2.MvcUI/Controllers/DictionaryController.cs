@@ -45,5 +45,11 @@ namespace DictionaryV2.MvcUI.Controllers
 
             return View(_engDictionaryService.GetByFilter(x=> x.EngStr.Contains(q)));
         }
+
+        [HttpGet]
+        public List<EngDictionary> GetAll() {
+
+            return _engDictionaryService.GetAll();
+        }
     }
 }
