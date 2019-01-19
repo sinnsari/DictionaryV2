@@ -36,6 +36,7 @@ namespace DictionaryV2.MvcUI.Controllers
 
         [HttpPost]
         public IActionResult New(EngDictionary entity) {
+            entity.InsertDate = DateTime.Now;
             _engDictionaryService.Add(entity);
 
             return RedirectToAction("New");
