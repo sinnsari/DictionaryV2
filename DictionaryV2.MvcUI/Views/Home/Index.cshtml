@@ -3,7 +3,9 @@
     ViewData["Title"] = "Index";
 }
 
-@if(Model.Count() > 0) {
+@{ int count = 0; }
+
+@if (Model.Count() > 0) {
 
     <div class="container">
         <div class="row">
@@ -18,10 +20,10 @@
                         </tr>
                     </thead>
                     <tbody>
-
                         @foreach (var item in Model) {
+                            count++;
                             <tr>
-                                <th scope="row"></th>
+                                <td>@count</td>
                                 <td>@item.EngStr</td>
                                 <td>@item.TrStr</td>
                             </tr>

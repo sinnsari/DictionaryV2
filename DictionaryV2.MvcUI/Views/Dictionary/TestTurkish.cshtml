@@ -3,6 +3,22 @@
     ViewData["Title"] = "Test";
 }
 
+<div class="container mb-2">
+    <div class="row">
+        <div class="span6 ml-1">
+            <form class="form-inline my-2 my-lg-0" asp-controller="Dictionary" asp-action="LastWeek" method="post">
+                <button class="btn btn-secondary btn-sm" type="submit">Last Week</button>
+            </form>
+        </div>
+        <div class="span6 ml-5">
+            <form class="form-inline my-2 my-lg-0" asp-controller="Dictionary" asp-action="LastMonth" method="post">
+                <button class="btn btn-secondary btn-sm" type="submit">Last Month</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+@{ int count = 0; }
 
 @if (Model.Count() > 0) {
 
@@ -21,8 +37,9 @@
                     <tbody>
 
                         @foreach (var item in Model) {
+                            count++;
                             <tr>
-                                <th scope="row"></th>
+                                <td>@count</td>
                                 <td>@item.EngStr</td>
                                 <td>
                                     <div class="row">
@@ -42,10 +59,10 @@
 }
 
 
-    <script>
-        function ShowTr(id, str) {
+<script>
+    function ShowTr(id, str) {
 
-            var selector = '#' + id;
-            $(selector).val(str);
-        };
-    </script>
+        var selector = '#' + id;
+        $(selector).val(str);
+    };
+</script>

@@ -8,5 +8,9 @@ namespace DictionaryV2.DataAccess.Abstract {
     public interface IEngDictionaryDal : IEntityRepository<EngDictionary> {
 
         List<EngDictionary> GetAllByRandom();
+
+        List<EngDictionary> GetAllByRandomAndDate(DateTime date);
+
+        
     }
 }

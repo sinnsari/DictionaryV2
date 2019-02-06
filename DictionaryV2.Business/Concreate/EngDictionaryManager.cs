@@ -39,6 +39,10 @@ namespace DictionaryV2.Business.Concreate {
             return _engDictionaryDal.GetAllByRandom();
         }
 
+        public List<EngDictionary> GetAllByRandomAndDate(DateTime date) {
+            return _engDictionaryDal.GetAllByRandomAndDate(date);
+        }
+
         public EngDictionary GetByFilter(Func<EngDictionary,bool> filter) {
             return _engDictionaryDal.GetByFilter(filter);
         }

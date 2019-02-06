@@ -14,6 +14,8 @@ namespace DictionaryV2.Business.Abstract {
 
         List<EngDictionary> GetAllByRandom();
 
+        List<EngDictionary> GetAllByRandomAndDate(DateTime date);
+
         EngDictionary GetByFilter(Func<EngDictionary, bool> filter);
     }
 }

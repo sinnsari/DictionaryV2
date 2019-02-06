@@ -24,5 +24,13 @@ namespace DictionaryV2.DataAccess.Concreate.EntityFramework {
 
             return list;
         }
+
+        public List<EngDictionary> GetAllByRandomAndDate(DateTime date) {
+
+            var list = _context.Set<EngDictionary>().Where(x => x.InsertDate >= date).ToList();
+            list.Shuffle();
+
+            return list;
+        }
     }
 }
