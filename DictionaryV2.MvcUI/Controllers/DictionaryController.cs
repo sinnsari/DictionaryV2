@@ -24,14 +24,30 @@ namespace DictionaryV2.MvcUI.Controllers
             return View();
         }
 
-        public IActionResult TestTurkish() {
+        public IActionResult TestTurkish(string type) {
 
-            return View(_engDictionaryService.GetAllByRandom());
+            if (type == "LastWeek") {
+                return View(_engDictionaryService.GetAllByRandomAndDate(DateTime.Now.AddDays(-7)));
+            }
+            else if (type == "LastMonth") {
+                return View(_engDictionaryService.GetAllByRandomAndDate(DateTime.Now.AddMonths(-1)));
+            }
+            else {
+                return View(_engDictionaryService.GetAllByRandom());
+            }
         }
 
-        public IActionResult TestEnglish() {
+        public IActionResult TestEnglish(string type) {
 
-            return View(_engDictionaryService.GetAllByRandom());
+            if(type == "LastWeek") {
+                return View(_engDictionaryService.GetAllByRandomAndDate(DateTime.Now.AddDays(-7)));
+            }
+            else if(type == "LastMonth") {
+                return View(_engDictionaryService.GetAllByRandomAndDate(DateTime.Now.AddMonths(-1)));
+            }
+            else {
+                return View(_engDictionaryService.GetAllByRandom());
+            }
         }
 
         [HttpPost]
