@@ -17,7 +17,7 @@
         </div>
     </div>
 </div>
-
+@{ int count = 0; }
 @if (Model.Count() > 0) {
 
     <div class="container">
@@ -35,13 +35,14 @@
                     <tbody>
 
                         @foreach (var item in Model) {
+                            count++;
                             <tr>
-                                <th scope="row"></th>
+                                <td>@count</td>
                                 <td>@item.TrStr</td>
                                 <td>
                                     <div class="row">
-                                            <input type="text" id="@item.Id" class="form-control w-75" />
-                                            <input type="submit" onclick="ShowEng(@item.Id,'@item.EngStr')" value="Show" class="btn btn-primary" />
+                                        <input type="text" id="@item.Id" class="form-control w-75" />
+                                        <input type="submit" onclick="ShowEng(@item.Id,'@item.EngStr')" value="Show" class="btn btn-primary" />
                                     </div>
                                 </td>
                             </tr>
@@ -56,21 +57,21 @@
 }
 
 
-    <script>
-        function ShowEng(id, str) {
+<script>
+    function ShowEng(id, str) {
 
-            var inputIdSelector = '#' + id;
+        var inputIdSelector = '#' + id;
 
-            var value = $(inputIdSelector).val();
+        var value = $(inputIdSelector).val();
 
-            if (value == str) {
-                $(inputIdSelector).addClass("btn-outline-success");
-            }
-            else {
-                $(inputIdSelector).addClass("btn-outline-danger");
-            }
+        if (value == str) {
+            $(inputIdSelector).addClass("btn-outline-success");
+        }
+        else {
+            $(inputIdSelector).addClass("btn-outline-danger");
+        }
 
-            var selector = '#' + id;
-            $(selector).val(str);
-        };
-    </script>
+        var selector = '#' + id;
+        $(selector).val(str);
+    };
+</script>
