@@ -68,17 +68,5 @@ namespace DictionaryV2.MvcUI.Controllers
 
             return _engDictionaryService.GetAll();
         }
-
-        [HttpPost]
-        public IActionResult LastWeek() {
-
-            return View("TestTurkish", _engDictionaryService.GetAllByRandomAndDate(DateTime.Now.AddDays(-7)));
-        }
-
-        [HttpPost]
-        public IActionResult LastMonth() {
-
-            return View("TestTurkish", _engDictionaryService.GetAllByRandomAndDate(DateTime.Now.AddMonths(-1)));
-        }
     }
 }
