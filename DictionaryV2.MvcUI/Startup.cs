@@ -7,9 +7,13 @@ using DictionaryV2.Business.Abstract;
 using DictionaryV2.Business.Concreate;
 using DictionaryV2.DataAccess.Abstract;
 using DictionaryV2.DataAccess.Concreate.EntityFramework;
+using DictionaryV2.DataAccess.Concreate.EntityFramework.Identity;
+using DictionaryV2.Entity.Concreate;
+using DictionaryV2.Entity.Concreate.Identity;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -29,6 +33,28 @@ namespace DictionaryV2.MvcUI {
             services.AddMvc();
             services.AddDbContext<DictionaryContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"),
                     b => b.MigrationsAssembly("DictionaryV2.MvcUI")));
+            services.AddDbContext<AppIdentityContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"),
+                    b => b.MigrationsAssembly("DictionaryV2.MvcUI")));
+
+            services.AddIdentity<AppIdentityUser, AppIdentityRole>()
+                    .AddEntityFrameworkStores<AppIdentityContext>()
+                        .AddDefaultTokenProviders();
+
+            services.Configure<IdentityOptions>(options => {
+                options.Password.RequireDigit = true;
+                options.Password.RequireLowercase = true;
+                options.Password.RequireUppercase = true;
+
+                options.Lockout.MaxFailedAccessAttempts = 5;
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+
+            });
+
+            services.ConfigureApplicationCookie(options => {
+                options.LoginPath = "/Security/Login";
+                options.LogoutPath = "/Security/Logout";
+                options.AccessDeniedPath = "/Security/AccessDenied";
+            });
 
             //RegisterAutofacServices();
 
@@ -46,6 +72,7 @@ namespace DictionaryV2.MvcUI {
             //}
 
             app.UseDeveloperExceptionPage();
+            app.UseAuthentication();
 
             app.UseMvc(routes => routes.MapRoute(
                 name:"default",

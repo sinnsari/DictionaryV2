@@ -5,14 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DictionaryV2.Core\DictionaryV2.Core.csproj" />
-    <ProjectReference Include="..\DictionaryV2.Entity\DictionaryV2.Entity.csproj" />
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.9" />
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="Microsoft.EntityFrameworkCore">
-      <HintPath>..\..\..\..\..\..\..\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.entityframeworkcore\2.0.3\lib\netstandard2.0\Microsoft.EntityFrameworkCore.dll</HintPath>
-    </Reference>
+    <ProjectReference Include="..\DictionaryV2.Core\DictionaryV2.Core.csproj" />
+    <ProjectReference Include="..\DictionaryV2.Entity\DictionaryV2.Entity.csproj" />
   </ItemGroup>
 
 </Project>

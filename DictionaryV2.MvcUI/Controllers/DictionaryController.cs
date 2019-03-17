@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using DictionaryV2.Business.Abstract;
 using DictionaryV2.DataAccess.Abstract;
 using DictionaryV2.Entity.Concreate;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DictionaryV2.MvcUI.Controllers
@@ -19,6 +20,7 @@ namespace DictionaryV2.MvcUI.Controllers
             return View();
         }
 
+        [Authorize]
         public IActionResult New() {
 
             return View();

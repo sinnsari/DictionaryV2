@@ -16,7 +16,7 @@ namespace DictionaryV2.MvcUI.Controllers
             _engDictionaryService = engDictionaryService;
         }
         public IActionResult Index() {
-
+            
             return View(_engDictionaryService.GetAll().OrderByDescending(x=>x.Id));
         }
 
