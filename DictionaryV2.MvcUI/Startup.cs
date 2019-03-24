@@ -47,13 +47,14 @@ namespace DictionaryV2.MvcUI {
 
                 options.Lockout.MaxFailedAccessAttempts = 5;
                 options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
-
             });
 
             services.ConfigureApplicationCookie(options => {
                 options.LoginPath = "/Security/Login";
                 options.LogoutPath = "/Security/Logout";
                 options.AccessDeniedPath = "/Security/AccessDenied";
+
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(120);
             });
 
             //RegisterAutofacServices();

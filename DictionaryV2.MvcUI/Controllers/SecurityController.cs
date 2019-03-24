@@ -25,13 +25,14 @@ namespace DictionaryV2.MvcUI.Controllers
             return View();
         }
 
-        public IActionResult Login() {
+        public IActionResult Login(string returnUrl) {
+            ViewBag.ReturnUrl = returnUrl;
 
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(LoginModel loginModel, string ReturnUrl) {
+        public async Task<IActionResult> Login(LoginModel loginModel, string returnUrl) {
 
             var user = await _userManager.FindByNameAsync(loginModel.UserName);
             if(user == null) {
@@ -41,6 +42,9 @@ namespace DictionaryV2.MvcUI.Controllers
 
             var result = await _signInManager.PasswordSignInAsync(loginModel.UserName, loginModel.Password, false, true);
             if (result.Succeeded) {
+                if(!string.IsNullOrEmpty(returnUrl))
+                    return Redirect(returnUrl);
+
                 return RedirectToAction("Index", "Home");
             }
             
