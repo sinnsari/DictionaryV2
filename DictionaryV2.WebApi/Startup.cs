@@ -8,6 +8,7 @@ using DictionaryV2.DataAccess.Abstract;
 using DictionaryV2.DataAccess.Concreate.EntityFramework;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -25,7 +26,7 @@ namespace DictionaryV2.WebApi {
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services) {
             services.AddMvc();
-
+            services.AddCors();
             services.AddDbContext<DictionaryContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddTransient<IEngDictionaryService, EngDictionaryManager>();
@@ -37,6 +38,8 @@ namespace DictionaryV2.WebApi {
             if (env.IsDevelopment()) {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
 
             app.UseMvc(routes => {
                 routes.MapRoute(name: "default", template: "api/{controller=dictionary}/{action=get}");
