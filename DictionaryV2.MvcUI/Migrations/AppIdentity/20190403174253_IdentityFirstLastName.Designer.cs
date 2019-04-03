@@ -11,9 +11,10 @@ using System;
 namespace DictionaryV2.MvcUI.Migrations.AppIdentity
 {
     [DbContext(typeof(AppIdentityContext))]
-    partial class AppIdentityContextModelSnapshot : ModelSnapshot
+    [Migration("20190403174253_IdentityFirstLastName")]
+    partial class IdentityFirstLastName
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

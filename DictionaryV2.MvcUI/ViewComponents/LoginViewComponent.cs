@@ -18,7 +18,11 @@ namespace DictionaryV2.MvcUI.ViewComponents {
 
             var user = _userManager.GetUserName(HttpContext.User);
             if(user != null) {
-                ViewBag.UserName = user;
+
+                var userInfo = _userManager.FindByNameAsync(user);
+                if(userInfo != null) {
+                    ViewBag.UserName = userInfo.Result.FirstName + " " + userInfo.Result.LastName;
+                }
             }
 
             return View();

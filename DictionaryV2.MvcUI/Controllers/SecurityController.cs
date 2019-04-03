@@ -68,7 +68,9 @@ namespace DictionaryV2.MvcUI.Controllers
 
             AppIdentityUser identityUser = new AppIdentityUser() {
                 UserName = registerModel.UserName,
-                Email = registerModel.Email
+                Email = registerModel.Email,
+                FirstName = registerModel.FirstName,
+                LastName = registerModel.LastName
             };
 
             var result = await _userManager.CreateAsync(identityUser, registerModel.Password);

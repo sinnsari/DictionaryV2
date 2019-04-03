@@ -42,6 +42,8 @@ namespace DictionaryV2.Core.Aspects.PostSharp.CacheAspects {
             if (_cacheManager.IsAdded(key)) {
 
                 args.ReturnValue = _cacheManager.Get<object>(key);
+
+                return;
             }
 
             base.OnInvoke(args);
