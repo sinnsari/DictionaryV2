@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DictionaryV2.Core.CrossCuttingConcerns.Caching;
 using DictionaryV2.Entity.Concreate.Identity;
 using DictionaryV2.Entity.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,15 +15,16 @@ namespace DictionaryV2.MvcUI.Controllers
     {
         private UserManager<AppIdentityUser> _userManager;
         private SignInManager<AppIdentityUser> _signInManager;
+        private ICacheManager _cacheManager;
 
-        public SecurityController(UserManager<AppIdentityUser> userManager, SignInManager<AppIdentityUser> signInManager) {
+        public SecurityController(UserManager<AppIdentityUser> userManager, SignInManager<AppIdentityUser> signInManager, ICacheManager cacheManager) {
 
             _userManager = userManager;
             _signInManager = signInManager;
+            _cacheManager = cacheManager;
         }
         
-        public IActionResult Index()
-        {
+        public IActionResult Index() {
             return View();
         }
 
@@ -91,6 +94,27 @@ namespace DictionaryV2.MvcUI.Controllers
             await _signInManager.SignOutAsync();
 
             return RedirectToAction("Index", "Home");
+        }
+
+        [Authorize]
+        public IActionResult Cache() {
+
+            List<object> cacheList = _cacheManager.GetAll<object>();
+            var cacheModel = new CacheModel();
+            cacheModel.Key = new List<string>();
+
+            foreach (var item in cacheList) {
+                cacheModel.Key.Add(((System.Collections.DictionaryEntry)item).Key.ToString());
+            }
+
+            return View(cacheModel);
+        }
+
+        public IActionResult Clear(string key) {
+
+            _cacheManager.Remove(key);
+
+            return RedirectToAction("Cache");
         }
     }
 }

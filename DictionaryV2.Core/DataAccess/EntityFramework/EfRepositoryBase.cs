@@ -29,13 +29,13 @@ namespace DictionaryV2.Core.DataAccess.EntityFramework {
             return _context.Set<T>().ToList();
         }
 
-        public T GetByFilter(Func<T, bool> filter) {
-            return _context.Set<T>().SingleOrDefault(filter);
+        public List<T> GetByFilter(Func<T, bool> filter) {
+            return _context.Set<T>().Where(filter).ToList();
         }
 
         public void Update(T entity) {
             var updatedEntity = _context.Entry(entity);
-            updatedEntity.State = EntityState.Added;
+            updatedEntity.State = EntityState.Modified;
             _context.SaveChanges();
         }
     }

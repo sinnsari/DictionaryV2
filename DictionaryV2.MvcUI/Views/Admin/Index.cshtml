@@ -1,6 +1,7 @@
 ﻿@model DictionaryModel
 @{
     ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
 @{ int count = 0; }
@@ -17,16 +18,20 @@
                             <th scope="col">#</th>
                             <th scope="col">English</th>
                             <th scope="col">Turkish</th>
+                            <th scope="col">#</th>
+                            <th scope="col">#</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach (var item in Model.Dictionaries) {
                             count++;
-                            <tr>
-                                <td>@count</td>
-                                <td>@item.EngStr</td>
-                                <td>@item.TrStr</td>
-                            </tr>
+                        <tr>
+                            <td>@count</td>
+                            <td>@item.EngStr</td>
+                            <td>@item.TrStr</td>
+                            <td><a class="btn btn-info" asp-action="Edit" asp-route-id="@item.Id" />Edit</td>
+                            <td><a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id" new { onclick="return confirm('You sure ?') " } />Delete</td>
+                        </tr>
                         }
                     </tbody>
                 </table>

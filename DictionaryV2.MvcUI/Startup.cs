@@ -5,6 +5,8 @@ using System.Reflection;
 using System.Threading.Tasks;
 using DictionaryV2.Business.Abstract;
 using DictionaryV2.Business.Concreate;
+using DictionaryV2.Core.CrossCuttingConcerns.Caching;
+using DictionaryV2.Core.CrossCuttingConcerns.Caching.Microsoft;
 using DictionaryV2.DataAccess.Abstract;
 using DictionaryV2.DataAccess.Concreate.EntityFramework;
 using DictionaryV2.DataAccess.Concreate.EntityFramework.Identity;
@@ -54,13 +56,16 @@ namespace DictionaryV2.MvcUI {
                 options.LogoutPath = "/Security/Logout";
                 options.AccessDeniedPath = "/Security/AccessDenied";
 
-                options.ExpireTimeSpan = TimeSpan.FromMinutes(120);
+                options.ExpireTimeSpan = TimeSpan.FromDays(1);
+                options.Cookie.Expiration = TimeSpan.FromDays(1);
             });
 
             //RegisterAutofacServices();
 
             services.AddTransient<IEngDictionaryDal, EfEngDictionaryDal>();
             services.AddTransient<IEngDictionaryService, EngDictionaryManager>();
+
+            services.AddTransient<ICacheManager, MemoryCacheManager>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -74,6 +79,7 @@ namespace DictionaryV2.MvcUI {
 
             app.UseDeveloperExceptionPage();
             app.UseAuthentication();
+            //app.UseHttpsRedirection();
 
             app.UseMvc(routes => routes.MapRoute(
                 name:"default",

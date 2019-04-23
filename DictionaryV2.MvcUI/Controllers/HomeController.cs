@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using DictionaryV2.Business.Abstract;
 using DictionaryV2.DataAccess.Abstract;
+using DictionaryV2.Entity.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DictionaryV2.MvcUI.Controllers
@@ -16,8 +17,12 @@ namespace DictionaryV2.MvcUI.Controllers
             _engDictionaryService = engDictionaryService;
         }
         public IActionResult Index() {
-            
-            return View(_engDictionaryService.GetAll().OrderByDescending(x=>x.Id));
+
+            var dictionaryModel = new DictionaryModel {
+                Dictionaries = _engDictionaryService.GetAll().OrderByDescending(x => x.Id).ToList()
+            };
+
+            return View(dictionaryModel);
         }
 
         public IActionResult Error() {

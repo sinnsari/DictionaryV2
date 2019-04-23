@@ -10,5 +10,6 @@ namespace DictionaryV2.Core.CrossCuttingConcerns.Caching {
         void Remove(string key);
         void RemoveByPattern(string pattern);
         void Clear();
+        List<T> GetAll<T>();
     }
 }

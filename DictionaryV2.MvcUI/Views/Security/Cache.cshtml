@@ -1,0 +1,30 @@
+﻿@model CacheModel
+@{
+    ViewData["Title"] = "Cache";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">Cache</th>
+                        <th scope="col">#</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Key) {
+                        <tr>
+                            <td>@item</td>
+                            <td><a class="btn btn-danger" asp-action="Clear" asp-route-key="@item"/>Clear</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+

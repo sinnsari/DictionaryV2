@@ -29,6 +29,10 @@ namespace DictionaryV2.Core.CrossCuttingConcerns.Caching.Microsoft {
             return (T)Cache[key];
         }
 
+        public List<T> GetAll<T>() {
+            return Cache.Cast<T>().ToList();
+        }
+
         public bool IsAdded(string key) {
             return Cache.Contains(key);
         }

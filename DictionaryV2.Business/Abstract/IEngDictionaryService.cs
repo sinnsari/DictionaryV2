@@ -9,6 +9,7 @@ namespace DictionaryV2.Business.Abstract {
 
         void Add(EngDictionary entity);
         void Delete(EngDictionary entity);
+        void Update(EngDictionary entity);
 
         List<EngDictionary> GetAll();
 
@@ -16,6 +17,6 @@ namespace DictionaryV2.Business.Abstract {
 
         List<EngDictionary> GetAllByRandomAndDate(DateTime date);
 
-        EngDictionary GetByFilter(Func<EngDictionary, bool> filter);
+        List<EngDictionary> GetByFilter(Func<EngDictionary, bool> filter);
     }
 }

@@ -8,7 +8,7 @@ namespace DictionaryV2.Core.DataAccess {
         void Add(T entity);
         void Update(T entity);
         void Delete(T entity);
-        T GetByFilter(Func<T, bool> filter);
+        List<T> GetByFilter(Func<T, bool> filter);
         List<T> GetAll();
     }
 }

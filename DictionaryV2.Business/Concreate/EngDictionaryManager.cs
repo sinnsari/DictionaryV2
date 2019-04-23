@@ -43,8 +43,12 @@ namespace DictionaryV2.Business.Concreate {
             return _engDictionaryDal.GetAllByRandomAndDate(date);
         }
 
-        public EngDictionary GetByFilter(Func<EngDictionary,bool> filter) {
+        public List<EngDictionary> GetByFilter(Func<EngDictionary,bool> filter) {
             return _engDictionaryDal.GetByFilter(filter);
+        }
+
+        public void Update(EngDictionary entity) {
+            _engDictionaryDal.Update(entity);
         }
     }
 }
