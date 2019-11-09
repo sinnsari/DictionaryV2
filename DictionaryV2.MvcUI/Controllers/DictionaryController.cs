@@ -14,8 +14,11 @@ namespace DictionaryV2.MvcUI.Controllers
     public class DictionaryController : Controller
     {
         private IEngDictionaryService _engDictionaryService;
-        public DictionaryController(IEngDictionaryService engDictionaryService) {
+        private readonly IRepeatService _repeatService;
+
+        public DictionaryController(IEngDictionaryService engDictionaryService, IRepeatService repeatService) {
             _engDictionaryService = engDictionaryService;
+            _repeatService = repeatService;
         }
         public IActionResult Index() {
             return View();
@@ -83,6 +86,39 @@ namespace DictionaryV2.MvcUI.Controllers
             };
 
             return View(dictionaryModel);
+        }
+
+        [HttpPost]
+        public IActionResult NewRepeat(Repeat entity)
+        {
+            entity.InsertDate = DateTime.Now;
+            entity.DoneFlag = false;
+            _repeatService.Add(entity);
+
+            return Json("Done!");
+        }
+
+        [HttpPost]
+        public IActionResult RepeatDone(int dictionaryId) {
+            _repeatService.UpdateDoneFlagByDictionaryId(dictionaryId);
+
+            return Json("Ok!");
+        }
+
+        [HttpGet]
+        public IActionResult Repeat() {
+            var repeatedList = _repeatService.GetRepeatsWithDictionaryNotDone();
+
+            var repeatModels = new List<RepeatModel>();
+            foreach (var item in repeatedList) {
+                var dictionary = _engDictionaryService.GetByFilter(x => x.Id == item.DictionaryId);
+                if (dictionary == null || dictionary.Count == 0)
+                    continue;
+
+                repeatModels.Add(new RepeatModel { DictionaryId = item.DictionaryId, TrStr = dictionary[0].TrStr, EngStr = dictionary[0].EngStr});
+            }
+
+            return View(repeatModels);
         }
     }
 }

@@ -49,7 +49,7 @@ namespace DictionaryV2.MvcUI.Controllers
         public IActionResult Delete(int id) {
 
             var obj = _engDictionaryService.GetByFilter(x => x.Id == id);
-            if(obj != null) {
+            if(obj != null && obj.Count > 0) {
                 _engDictionaryService.Delete(obj.FirstOrDefault());
             }
 

@@ -13,6 +13,7 @@ namespace DictionaryV2.DataAccess.Concreate.EntityFramework {
         }
 
         public DbSet<EngDictionary> EngDictionary { get; set; }
+        public DbSet<Repeat> Repeat { get; set; }
 
     }
 }

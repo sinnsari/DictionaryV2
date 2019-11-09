@@ -45,6 +45,7 @@
                                     <div class="row">
                                         <input type="text" id="@item.Id" disabled="disabled" class="form-control w-75" />
                                         <input type="submit" onclick="ShowTr(@item.Id,'@item.TrStr')" value="Show" class="btn btn-sm btn-primary ml-2" />
+                                        <input id="@item.Id" type="submit" value="Rpt" class="btnRepeat btn btn-sm btn-link btn-primary ml-1" />
                                     </div>
                                 </td>
                             </tr>
@@ -65,4 +66,20 @@
         var selector = '#' + id;
         $(selector).val(str);
     };
+
+    $(document).ready(function () {
+        $(".btnRepeat").click(function () {
+            $.ajax({
+                url: '@Url.Action("NewRepeat", "Dictionary")',
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    DictionaryId: $(this).attr('id')
+                },
+                success: function (data) {
+                    alert(data);
+                }
+            });
+        });
+    });
 </script>

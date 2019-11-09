@@ -11,9 +11,10 @@ using System;
 namespace DictionaryV2.MvcUI.Migrations
 {
     [DbContext(typeof(DictionaryContext))]
-    partial class DictionaryContextModelSnapshot : ModelSnapshot
+    [Migration("20191109085319_RepatAdded")]
+    partial class RepatAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

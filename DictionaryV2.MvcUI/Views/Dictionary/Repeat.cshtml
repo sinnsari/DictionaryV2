@@ -1,0 +1,67 @@
+﻿@model List<RepeatModel>
+@{
+    ViewData["Title"] = "Repeat";
+}
+
+@{ int count = 0; }
+
+@if (Model.Count() > 0) {
+
+    <div class="container">
+        <div class="row">
+            <div class="col">
+
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">English</th>
+                            <th scope="col">Turkish</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @foreach (var item in Model) {
+                            count++;
+                            <tr>
+                                <td>@count</td>
+                                <td>@item.EngStr</td>
+                                <td>
+                                    <div class="row">
+                                        <input type="text" id="@item.DictionaryId" disabled="disabled" class="form-control w-75" />
+                                        <input type="submit" onclick="ShowTr(@item.DictionaryId,'@item.TrStr')" value="Show" class="btn btn-sm btn-primary ml-2" />
+                                        <input id="@item.DictionaryId" type="submit" value="Ok" class="btnDone btn btn-sm btn-link btn-primary ml-1" />
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+}
+
+    <script>
+        function ShowTr(id, str) {
+
+            var selector = '#' + id;
+            $(selector).val(str);
+        };
+
+        $(document).ready(function () {
+            $(".btnDone").click(function () {
+                $.ajax({
+                    url: '@Url.Action("RepeatDone", "Dictionary")',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        DictionaryId: $(this).attr('id')
+                    },
+                    success: function (data) {
+                        alert(data);
+                    }
+                });
+            });
+        });
+    </script>

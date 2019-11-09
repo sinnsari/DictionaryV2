@@ -65,6 +65,9 @@ namespace DictionaryV2.MvcUI {
             services.AddTransient<IEngDictionaryDal, EfEngDictionaryDal>();
             services.AddTransient<IEngDictionaryService, EngDictionaryManager>();
 
+            services.AddTransient<IRepeatDal, EfRepeatDal>();
+            services.AddTransient<IRepeatService, RepeatManager>();
+
             services.AddTransient<ICacheManager, MemoryCacheManager>();
         }
 
