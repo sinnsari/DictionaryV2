@@ -1,19 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using DictionaryV2.Business.Abstract;
+﻿using DictionaryV2.Business.Abstract;
 using DictionaryV2.Business.Concreate;
 using DictionaryV2.DataAccess.Abstract;
 using DictionaryV2.DataAccess.Concreate.EntityFramework;
+using DictionaryV2.DataAccess.Concreate.EntityFramework.Identity;
+using DictionaryV2.Entity.Concreate.Identity;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace DictionaryV2.WebApi {
     public class Startup {
@@ -28,9 +26,26 @@ namespace DictionaryV2.WebApi {
             services.AddMvc();
             services.AddCors();
             services.AddDbContext<DictionaryContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<AppIdentityContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddIdentity<AppIdentityUser, AppIdentityRole>()
+                    .AddEntityFrameworkStores<AppIdentityContext>()
+                        .AddDefaultTokenProviders();
 
             services.AddTransient<IEngDictionaryService, EngDictionaryManager>();
             services.AddTransient<IEngDictionaryDal, EfEngDictionaryDal>();
+
+            services.AddAuthentication()
+                        .AddJwtBearer(options => {
+                            options.TokenValidationParameters = new TokenValidationParameters {
+                                ValidateIssuer = true,
+                                ValidateAudience = true,
+                                ValidateIssuerSigningKey = true,
+                                ValidIssuer = Configuration["Issuer"],
+                                ValidAudience = Configuration["Audience"],
+                                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["SigningKey"]))
+                            };
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -38,6 +53,8 @@ namespace DictionaryV2.WebApi {
             if (env.IsDevelopment()) {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseAuthentication();
 
             app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
 

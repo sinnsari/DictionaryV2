@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using DictionaryV2.Business.Abstract;
 using DictionaryV2.Entity.Concreate;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DictionaryV2.WebApi.Controllers
@@ -18,6 +19,7 @@ namespace DictionaryV2.WebApi.Controllers
         }
 
         [HttpGet("")]
+        [Authorize(AuthenticationSchemes = "Bearer")]
         public List<EngDictionary> Get() {
 
             return _engDictionaryService.GetAll();
