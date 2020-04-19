@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AlertifyJS" Version="1.13.1" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.9" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.4" />
   </ItemGroup>
@@ -14,6 +15,10 @@
   <ItemGroup>
     <ProjectReference Include="..\DictionaryV2.Business\DictionaryV2.Business.csproj" />
     <ProjectReference Include="..\DictionaryV2.DataAccess\DictionaryV2.DataAccess.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\scripts\common.js" />
   </ItemGroup>
 
 </Project>

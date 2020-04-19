@@ -22,16 +22,22 @@ namespace DictionaryV2.WebApi.Controllers
         private SignInManager<AppIdentityUser> _signInManager;
         private readonly IConfiguration configuration;
 
-        public TokenController(IConfiguration configuration) {
+        public TokenController(IConfiguration configuration, UserManager<AppIdentityUser> userManager, SignInManager<AppIdentityUser> signInManager) {
             this.configuration = configuration;
+            _userManager = userManager;
+            _signInManager = signInManager;
         }
 
         [HttpPost]
         public IActionResult CreateToken([FromBody]TokenRequest request) {
 
-            if(request.UserName != "sinan") {
+            var user = _userManager.FindByNameAsync(request.UserName);
+            if (user == null)
                 return Unauthorized();
-            }
+
+            var signIn = _signInManager.PasswordSignInAsync(request.UserName, request.Password, false, true);
+            if (!signIn.Result.Succeeded)
+                return Unauthorized();
 
             return Ok(new { newToken = GenerateToken(request.UserName) });
         }

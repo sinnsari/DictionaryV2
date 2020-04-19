@@ -26,6 +26,7 @@ namespace DictionaryV2.WebApi.Controllers
         }
 
         [HttpPost("new")]
+        [Authorize(AuthenticationSchemes = "Bearer")]
         public IActionResult New([FromBody]EngDictionary entity) {
             entity.InsertDate = DateTime.Now;
             _engDictionaryService.Add(entity);
