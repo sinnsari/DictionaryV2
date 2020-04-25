@@ -6,23 +6,28 @@ using DictionaryV2.Business.Abstract;
 using DictionaryV2.Entity.Concreate;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace DictionaryV2.WebApi.Controllers
 {
     [Route("api/[controller]")]
     public class DictionaryController : Controller
     {
+        private readonly ILogger<ValuesController> _logger;
         private IEngDictionaryService _engDictionaryService;
 
-        public DictionaryController(IEngDictionaryService engDictionaryService) {
+        public DictionaryController(IEngDictionaryService engDictionaryService, ILogger<ValuesController> logger) {
             _engDictionaryService = engDictionaryService;
+            _logger = logger;
         }
 
         [HttpGet("")]
         [Authorize(AuthenticationSchemes = "Bearer")]
         public List<EngDictionary> Get() {
 
-            return _engDictionaryService.GetAll();
+            var result = _engDictionaryService.GetAll();
+
+            return result;
         }
 
         [HttpPost("new")]

@@ -4,12 +4,14 @@ using DictionaryV2.DataAccess.Abstract;
 using DictionaryV2.DataAccess.Concreate.EntityFramework;
 using DictionaryV2.DataAccess.Concreate.EntityFramework.Identity;
 using DictionaryV2.Entity.Concreate.Identity;
+using DictionaryV2.WebApi.Logger;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
@@ -49,10 +51,13 @@ namespace DictionaryV2.WebApi {
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env) {
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory) {
             if (env.IsDevelopment()) {
                 app.UseDeveloperExceptionPage();
             }
+
+            //provider'ı ekledik
+            loggerFactory.AddProvider(new FileLogProvider());
 
             app.UseAuthentication();
 
