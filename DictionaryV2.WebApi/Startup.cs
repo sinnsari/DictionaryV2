@@ -6,14 +6,18 @@ using DictionaryV2.DataAccess.Concreate.EntityFramework.Identity;
 using DictionaryV2.Entity.Concreate.Identity;
 using DictionaryV2.WebApi.Logger;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+using System.Net;
 using System.Text;
+using DictionaryV2.WebApi.Helpers;
 
 namespace DictionaryV2.WebApi {
     public class Startup {
@@ -54,6 +58,17 @@ namespace DictionaryV2.WebApi {
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory) {
             if (env.IsDevelopment()) {
                 app.UseDeveloperExceptionPage();
+            }
+            else {
+                app.UseExceptionHandler(options => 
+                    options.Run(async context => {
+                        context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                        var error = context.Features.Get<IExceptionHandlerFeature>();
+                        if(error != null) {
+                            context.Response.AddApplicationError(error.Error.Message);
+                            await context.Response.WriteAsync(error.Error.Message);
+                        }
+                    }));
             }
 
             //provider'ı ekledik

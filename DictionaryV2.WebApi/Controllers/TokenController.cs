@@ -15,7 +15,7 @@ using Microsoft.IdentityModel.Tokens;
 namespace DictionaryV2.WebApi.Controllers
 {
     [Produces("application/json")]
-    [Route("api/Token")]
+    [Route("api/[controller]")]
     public class TokenController : Controller
     {
         private UserManager<AppIdentityUser> _userManager;
@@ -28,8 +28,8 @@ namespace DictionaryV2.WebApi.Controllers
             _signInManager = signInManager;
         }
 
-        [HttpPost]
-        public IActionResult CreateToken([FromBody]TokenRequest request) {
+        [HttpPost("Login")]
+        public IActionResult Login([FromBody]TokenRequest request) {
 
             var user = _userManager.FindByNameAsync(request.UserName);
             if (user == null)
@@ -39,12 +39,36 @@ namespace DictionaryV2.WebApi.Controllers
             if (!signIn.Result.Succeeded)
                 return Unauthorized();
 
-            return Ok(new { newToken = GenerateToken(request.UserName) });
+            return Ok(new { newToken = GenerateToken(request.UserName, user.Result.FirstName) });
         }
 
-        private string GenerateToken(string userName) {
+        [HttpPost("Register")]
+        public IActionResult Register([FromBody]RegisterRequest request) {
+
+            //todo : FindByNameAsync always return object even if user does not exist
+            var user = _userManager.FindByNameAsync(request.UserName);
+            if (user != null && user.Result != null)
+                return BadRequest("User already exist");
+
+            AppIdentityUser identityUser = new AppIdentityUser() {
+                UserName = request.UserName,
+                Email = request.Email,
+                FirstName = request.FirstName,
+                LastName = request.LastName
+            };
+
+            var result = _userManager.CreateAsync(identityUser, request.Password);
+
+            if (!result.Result.Succeeded)
+                return BadRequest(result.Result.Errors);
+
+            return Ok();
+        }
+
+        private string GenerateToken(string userName, string firstName) {
             var claim = new[] {
                 new Claim(JwtRegisteredClaimNames.Sub,userName),
+                new Claim(JwtRegisteredClaimNames.GivenName,firstName),
                 new Claim(JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString())
             };
 
@@ -64,5 +88,13 @@ namespace DictionaryV2.WebApi.Controllers
     public class TokenRequest {
         public string UserName { get; set; }
         public string Password { get; set; }
+    }
+
+    public class RegisterRequest {
+        public string UserName { get; set; }
+        public string Password { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Email { get; set; }
     }
 }
