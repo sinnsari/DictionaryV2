@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using DictionaryV2.Business.Abstract;
 using DictionaryV2.Entity.Concreate;
@@ -25,7 +26,7 @@ namespace DictionaryV2.WebApi.Controllers
         [Authorize(AuthenticationSchemes = "Bearer")]
         public List<EngDictionary> Get() {
 
-            var result = _engDictionaryService.GetAll();
+            var result = _engDictionaryService.GetAll().OrderByDescending(x=> x.InsertDate).ToList();
 
             return result;
         }
@@ -65,6 +66,61 @@ namespace DictionaryV2.WebApi.Controllers
             else {
                 return Ok(_engDictionaryService.GetAllByRandom());
             }
+        }
+
+        [HttpGet("Search")]
+        public IActionResult Search(string search) {
+            var searchList = _engDictionaryService.GetByFilter(x => x.TrStr.Contains(search) || x.EngStr.Contains(search));
+
+            return Ok(searchList);
+        }
+
+        [HttpPut("edit")]
+        public IActionResult Edit(int id, [FromBody]EngDictionary engDictionary) {
+            try {
+                var updatedObj = _engDictionaryService.GetByFilter(x => x.Id == id).FirstOrDefault();
+                if (updatedObj == null) {
+                    return NotFound("Dictionary not found");
+                }
+
+                updatedObj.TrStr = engDictionary.TrStr;
+                updatedObj.EngStr = engDictionary.EngStr;
+
+                _engDictionaryService.Update(updatedObj);
+                return Ok();
+            }
+            catch (Exception ex) {
+
+                return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpDelete("delete")]
+        public IActionResult Delete(int id) {
+            try {
+
+                var deletedObj = _engDictionaryService.GetByFilter(x => x.Id == id);
+                if (deletedObj == null || deletedObj.Count == 0) {
+                    return NotFound("Dictionary not found");
+                }
+
+                _engDictionaryService.Delete(deletedObj.FirstOrDefault());
+                return Ok();
+            }
+            catch (Exception ex) {
+
+                return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpGet("{id}")]
+        public IActionResult GetById(int id) {
+            var dictionary = _engDictionaryService.GetByFilter(x => x.Id == id).FirstOrDefault();
+            if (dictionary == null) {
+                return NotFound("Dictionary not found");
+            }
+
+            return Ok(dictionary);
         }
     }
 }

@@ -30,7 +30,7 @@ namespace DictionaryV2.Business.Concreate {
             _engDictionaryDal.Delete(entity);
         }
 
-        [CacheAspect(typeof(MemoryCacheManager))]
+        //[CacheAspect(typeof(MemoryCacheManager))]
         public List<EngDictionary> GetAll() {
             return _engDictionaryDal.GetAll();
         }
