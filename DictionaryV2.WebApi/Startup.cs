@@ -18,6 +18,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Net;
 using System.Text;
 using DictionaryV2.WebApi.Helpers;
+using System;
 
 namespace DictionaryV2.WebApi {
     public class Startup {
@@ -37,6 +38,17 @@ namespace DictionaryV2.WebApi {
             services.AddIdentity<AppIdentityUser, AppIdentityRole>()
                     .AddEntityFrameworkStores<AppIdentityContext>()
                         .AddDefaultTokenProviders();
+
+            services.Configure<IdentityOptions>(options => {
+                options.Password.RequireDigit = true;
+                options.Password.RequireLowercase = true;
+                options.Password.RequireUppercase = true;
+                options.Password.RequiredLength = 6;
+                options.Password.RequireNonAlphanumeric = true;
+
+                options.Lockout.MaxFailedAccessAttempts = 5;
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+            });
 
             services.AddTransient<IEngDictionaryService, EngDictionaryManager>();
             services.AddTransient<IEngDictionaryDal, EfEngDictionaryDal>();
@@ -77,9 +89,12 @@ namespace DictionaryV2.WebApi {
             app.UseAuthentication();
 
             app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
 
             app.UseMvc(routes => {
-                routes.MapRoute(name: "default", template: "api/{controller=dictionary}/{action=get}");
+                //routes.MapRoute(name: "default", template: "api/{controller=dictionary}/{action=get}");
+                routes.MapSpaFallbackRoute(name: "spa-fallback", defaults: new { controller = "Fallback", action = "Index" });
             });
         }
     }

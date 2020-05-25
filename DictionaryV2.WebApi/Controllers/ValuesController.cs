@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DictionaryV2.WebApi.Controllers {
 
+    [Route("api/[controller]")]
     public class ValuesController : Controller {
         // GET api/values
         [HttpGet]

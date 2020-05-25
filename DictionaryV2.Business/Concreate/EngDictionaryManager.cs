@@ -7,6 +7,7 @@ using DictionaryV2.Core.CrossCuttingConcerns.Caching.Microsoft;
 using DictionaryV2.Core.CrossCuttingConcerns.Validator.FluentValidator;
 using DictionaryV2.DataAccess.Abstract;
 using DictionaryV2.Entity.Concreate;
+using DictionaryV2.Entity.Concreate.ApiPaging;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc.Razor.Internal;
 using System;
@@ -45,6 +46,10 @@ namespace DictionaryV2.Business.Concreate {
 
         public List<EngDictionary> GetByFilter(Func<EngDictionary,bool> filter) {
             return _engDictionaryDal.GetByFilter(filter);
+        }
+
+        public PagedList<EngDictionary> GetByPaging(PagingParam param) {
+            return _engDictionaryDal.GetByPaging(param);
         }
 
         public void Update(EngDictionary entity) {

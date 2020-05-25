@@ -5,6 +5,7 @@ using System.Net;
 using System.Threading.Tasks;
 using DictionaryV2.Business.Abstract;
 using DictionaryV2.Entity.Concreate;
+using DictionaryV2.WebApi.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -30,6 +31,18 @@ namespace DictionaryV2.WebApi.Controllers
 
             return result;
         }
+
+        [HttpGet("GetByPaging")]
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        public IActionResult GetByPaging([FromQuery]PagingParam pagingParam) {
+
+            var result = _engDictionaryService.GetByPaging(pagingParam);
+
+            Response.AddApplicationPageInfo(result.TotalPage, result.TotalItems, pagingParam.PageNumber, pagingParam.PageSize);
+
+            return Ok(result);
+        }
+
 
         [HttpPost("new")]
         [Authorize(AuthenticationSchemes = "Bearer")]
@@ -113,7 +126,7 @@ namespace DictionaryV2.WebApi.Controllers
             }
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("GetById")]
         public IActionResult GetById(int id) {
             var dictionary = _engDictionaryService.GetByFilter(x => x.Id == id).FirstOrDefault();
             if (dictionary == null) {
